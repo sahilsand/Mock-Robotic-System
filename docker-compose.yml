@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+  camera:
+    build: .
+    container_name: camera_sensor
+    command: ros2 run camera_sensor_pkg camera_sensor_node
+    networks:
+      rai_net:
+        ipv4_address: 172.20.0.2
+  localization:
+    build: .
+    container_name: localization
+    command: ros2 run localization_pkg localization_node
+    networks:
+      rai_net:
+        ipv4_address: 172.20.0.3
+  mapping:
+    build: .
+    container_name: mapping
+    command: ros2 run mapping_pkg mapping_node
+    networks:
+      rai_net:
+        ipv4_address: 172.20.0.4
+  control:
+    build: .
+    container_name: control
+    command: ros2 run control_pkg control_node
+    networks:
+      rai_net:
+        ipv4_address: 172.20.0.5
+networks:
+  rai_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
